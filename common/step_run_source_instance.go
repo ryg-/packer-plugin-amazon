@@ -56,6 +56,7 @@ type StepRunSourceInstance struct {
 	VolumeTags                        map[string]string
 	NoEphemeral                       bool
 	EnableNitroEnclave                bool
+	EnableNestedVirtualization        bool
 	IsBurstableInstanceType           bool
 
 	instanceId string
@@ -155,6 +156,12 @@ func (s *StepRunSourceInstance) Run(ctx context.Context, state multistep.StateBa
 				NoDevice:   aws.String(""),
 			}
 			runOpts.BlockDeviceMappings = append(runOpts.BlockDeviceMappings, bd)
+		}
+	}
+
+	if s.EnableNestedVirtualization {
+		runOpts.CpuOptions = &ec2types.CpuOptionsRequest{
+			NestedVirtualization: ec2types.NestedVirtualizationSpecificationEnabled,
 		}
 	}
 

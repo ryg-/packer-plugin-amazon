@@ -147,6 +147,35 @@ func TestCreateTemplateData_NoEphemeral(t *testing.T) {
 	// }
 }
 
+func TestCreateTemplateData_EnableNestedVirtualization(t *testing.T) {
+	state := tStateSpot()
+	stepRunSpotInstance := getBasicStep()
+	stepRunSpotInstance.EnableNestedVirtualization = true
+
+	template := stepRunSpotInstance.CreateTemplateData(aws.String("userdata"), "az", state,
+		&ec2types.LaunchTemplateInstanceMarketOptionsRequest{})
+
+	if template.CpuOptions == nil {
+		t.Fatalf("Template should include CpuOptions when nested virtualization is enabled")
+	}
+
+	if template.CpuOptions.NestedVirtualization != ec2types.NestedVirtualizationSpecificationEnabled {
+		t.Fatalf("Template should enable nested virtualization, got %#v", template.CpuOptions.NestedVirtualization)
+	}
+}
+
+func TestCreateTemplateData_DisableNestedVirtualization(t *testing.T) {
+	state := tStateSpot()
+	stepRunSpotInstance := getBasicStep()
+
+	template := stepRunSpotInstance.CreateTemplateData(aws.String("userdata"), "az", state,
+		&ec2types.LaunchTemplateInstanceMarketOptionsRequest{})
+
+	if template.CpuOptions != nil {
+		t.Fatalf("Template should not include CpuOptions when nested virtualization is disabled")
+	}
+}
+
 type runSpotEC2ConnMock struct {
 	//ec2iface.EC2API
 	clients.Ec2Client

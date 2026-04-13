@@ -189,6 +189,10 @@ type RunConfig struct {
 	// be able to [support Nitro Enclaves](https://aws.amazon.com/ec2/nitro/nitro-enclaves/faqs/).
 	// This option is not supported for spot instances.
 	EnableNitroEnclave bool `mapstructure:"enable_nitro_enclave" required:"false"`
+	// Enable nested virtualization on the instance, allowing it to run hypervisors
+	// such as KVM or Hyper-V (including WSL2).
+	// Supported on C8i, M8i, and R8i instance types.
+	EnableNestedVirtualization bool `mapstructure:"enable_nested_virtualization" required:"false"`
 	// Deprecated argument - please use "enable_unlimited_credits".
 	// Enabling T2 Unlimited allows the source instance to burst additional CPU
 	// beyond its available [CPU

@@ -61,6 +61,7 @@ type StepRunSpotInstance struct {
 	NoEphemeral                       bool
 	IsBurstableInstanceType           bool
 	EnableUnlimitedCredits            bool
+	EnableNestedVirtualization        bool
 
 	instanceId string
 }
@@ -188,6 +189,12 @@ func (s *StepRunSpotInstance) CreateTemplateData(userData *string, az string,
 	// available.
 	if s.InstanceType != "" {
 		templateData.InstanceType = ec2types.InstanceType(s.InstanceType)
+	}
+
+	if s.EnableNestedVirtualization {
+		templateData.CpuOptions = &ec2types.LaunchTemplateCpuOptionsRequest{
+			NestedVirtualization: ec2types.NestedVirtualizationSpecificationEnabled,
+		}
 	}
 
 	if s.Comm.SSHKeyPairName != "" {

@@ -252,6 +252,7 @@ func (b *Builder) Run(ctx context.Context, ui packersdk.Ui, hook packersdk.Hook)
 			UserDataFile:                      b.config.UserDataFile,
 			VolumeTags:                        b.config.VolumeRunTags,
 			NoEphemeral:                       b.config.NoEphemeral,
+			EnableNestedVirtualization:        b.config.EnableNestedVirtualization,
 		}
 	} else {
 		var tenancy string
@@ -276,6 +277,7 @@ func (b *Builder) Run(ctx context.Context, ui packersdk.Ui, hook packersdk.Hook)
 			Debug:                             b.config.PackerDebug,
 			EbsOptimized:                      b.config.EbsOptimized,
 			EnableNitroEnclave:                b.config.EnableNitroEnclave,
+			EnableNestedVirtualization:        b.config.EnableNestedVirtualization,
 			IsBurstableInstanceType:           b.config.RunConfig.IsBurstableInstanceType(),
 			EnableUnlimitedCredits:            b.config.EnableUnlimitedCredits,
 			ExpectedRootDevice:                "ebs",

@@ -323,6 +323,7 @@ func (b *Builder) Run(ctx context.Context, ui packersdk.Ui, hook packersdk.Hook)
 			Debug:                         b.config.PackerDebug,
 			EbsOptimized:                  b.config.EbsOptimized,
 			EnableNitroEnclave:            b.config.EnableNitroEnclave,
+			EnableNestedVirtualization:    b.config.EnableNestedVirtualization,
 			IsBurstableInstanceType:       b.config.RunConfig.IsBurstableInstanceType(),
 			EnableUnlimitedCredits:        b.config.EnableUnlimitedCredits,
 			InstanceType:                  b.config.InstanceType,
